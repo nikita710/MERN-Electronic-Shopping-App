@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -12,6 +12,8 @@ import {
 
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllProductsAsync, selectAllProducts } from "../productSlice";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -69,41 +71,48 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 2,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 3,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  // More products...
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: "Basic Tee",
+//     href: "#",
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+//     imageAlt: "Front of men's Basic Tee in black.",
+//     price: "$35",
+//     color: "Black",
+//   },
+//   {
+//     id: 2,
+//     name: "Basic Tee",
+//     href: "#",
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+//     imageAlt: "Front of men's Basic Tee in black.",
+//     price: "$35",
+//     color: "Black",
+//   },
+//   {
+//     id: 3,
+//     name: "Basic Tee",
+//     href: "#",
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+//     imageAlt: "Front of men's Basic Tee in black.",
+//     price: "$35",
+//     color: "Black",
+//   },
+//   // More products...
+// ];
 const ProductList = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const products = useSelector(selectAllProducts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllProductsAsync());
+  }, [dispatch]);
 
   return (
     <div>
