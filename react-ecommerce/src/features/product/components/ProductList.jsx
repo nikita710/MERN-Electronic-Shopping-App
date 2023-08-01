@@ -154,6 +154,7 @@ export default function ProductList() {
                             <p
                               onClick={(e) => handleSort(e, option)}
                               className={classNames(
+                                "cursor-pointer",
                                 option.current
                                   ? "font-medium text-gray-900"
                                   : "text-gray-500",

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductByIdAsync, selectProductById } from "../productSlice";
 import { addToCartAsync } from "../../cart/CartSlice";
-import { selectRegisteredUser } from "../../auth/authSlice";
+import { selectLoggedInUser } from "../../auth/authSlice";
 
 // const product = {
 //   name: "Basic Tee 6-Pack",
@@ -93,7 +93,7 @@ function classNames(...classes) {
 
 export default function ProductDetail() {
   const product = useSelector(selectProductById);
-  const user = useSelector(selectRegisteredUser);
+  const user = useSelector(selectLoggedInUser);
 
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);

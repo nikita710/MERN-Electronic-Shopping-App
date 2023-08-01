@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { checkUser, createUser } from "./authApi";
+import { checkUser, createUser, updateUser } from "./authApi";
 
 const initialState = {
   registeredUser: null,
@@ -7,6 +7,7 @@ const initialState = {
   error: null,
 };
 
+// Create a new user
 export const createUserAsync = createAsyncThunk(
   "auth/fetchUsers",
   async (userData) => {
@@ -15,10 +16,20 @@ export const createUserAsync = createAsyncThunk(
   }
 );
 
+// Login user
 export const checkUserAsync = createAsyncThunk(
   "auth/checkUser",
   async (loginInfo) => {
     const response = await checkUser(loginInfo);
+    return response.data;
+  }
+);
+
+//Update user
+export const updateUserAsync = createAsyncThunk(
+  "auth/updateUser",
+  async (user) => {
+    const response = await updateUser(user);
     return response.data;
   }
 );
@@ -45,11 +56,18 @@ export const authSlice = createSlice({
       .addCase(checkUserAsync.rejected, (state, acton) => {
         state.status = "error";
         state.error = acton.error;
+      })
+      .addCase(updateUserAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateUserAsync.fulfilled, (state, acton) => {
+        state.status = "idle";
+        state.registeredUser = acton.payload;
       });
   },
 });
 
-export const selectRegisteredUser = (state) => state.auth.registeredUser;
+export const selectLoggedInUser = (state) => state.auth.registeredUser;
 export const selectError = (state) => state.auth.error;
 
 export default authSlice.reducer;

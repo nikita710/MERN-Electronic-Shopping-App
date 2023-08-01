@@ -26,18 +26,29 @@ export const updateCart = (update) => {
       headers: { "Content-Type": "application/json" },
     });
     const data = await response.json();
-    console.log(data);
     resolve({ data });
   });
 };
 
-export const deleteCart = (cartId) => {
-  return new Promise(async (resolve, reject) => {
-    const response = await fetch("http://localhost:8080/cart/" + cartId, {
+export const deleteCart = (itemId) => {
+  return new Promise(async (resolve) => {
+    await fetch("http://localhost:8080/cart/" + itemId, {
       method: "DELETE",
       headers: { "Content-Type": "application/json " },
     });
-    const data = await response.json();
-    resolve({ data: data.id });
+    // console.log({ data: { id: itemId } });
+    resolve({ data: { id: itemId } });
+  });
+};
+
+export const resetCart = (userId) => {
+  return new Promise(async (resolve) => {
+    const response = await fetchItemsByUserId(userId);
+    const items = await response.data;
+    for (const item of items) {
+      await deleteCart(item.id);
+    }
+
+    resolve({ status: "success" });
   });
 };
