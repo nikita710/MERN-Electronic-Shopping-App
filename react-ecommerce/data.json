@@ -3,24 +3,25 @@
     {
       "email": "test@gmail.com",
       "password": "Test@123",
+      "role": "user",
       "addresses": [
         {
-          "fullName": "Nikita",
-          "email": "nik@gmail.com",
-          "phone": "456789123",
+          "fullName": "Nikita Parmar",
+          "email": "niki@gmail.com",
+          "phone": "45258741",
           "street": "25 Main Street",
           "city": "warsaw",
           "region": "mazowieskie",
-          "postalCode": "25689"
+          "postalCode": "110011"
         },
         {
-          "fullName": "misha",
-          "email": "maya@gmail.com",
-          "phone": "44549898897",
-          "street": "25 Jakarta Street",
-          "city": "warsaw",
-          "region": "mazowieskie",
-          "postalCode": "52451"
+          "fullName": "Sakshi Parmar",
+          "email": "sakshi@gmail.com",
+          "phone": "88258741",
+          "street": "98 Review Street",
+          "city": "Krakow",
+          "region": "Rasynska",
+          "postalCode": "658902"
         }
       ],
       "id": 1
@@ -28,8 +29,35 @@
     {
       "email": "maya@gmail.com",
       "password": "Test@123",
-      "addresses": [],
+      "role": "user",
+      "addresses": [
+        {
+          "fullName": "maya1",
+          "email": "maya1@gmail.com",
+          "phone": "456789123",
+          "street": "25 Hell Street",
+          "city": "warsaw",
+          "region": "mazowieskie",
+          "postalCode": "25689"
+        },
+        {
+          "fullName": "maya2",
+          "email": "maya2@gmail.com",
+          "phone": "456789123",
+          "street": "Crotap Street",
+          "city": "warsaw",
+          "region": "mazowieskie",
+          "postalCode": "25689"
+        }
+      ],
       "id": 2
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "Test@123",
+      "addresses": [],
+      "role": "admin",
+      "id": 3
     }
   ],
   "products": [
@@ -81,9 +109,7 @@
       "brand": "Samsung",
       "category": "smartphones",
       "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
-      "images": [
-        "https://i.dummyjson.com/data/products/3/1.jpg"
-      ]
+      "images": ["https://i.dummyjson.com/data/products/3/1.jpg"]
     },
     {
       "id": 4,
@@ -1461,9 +1487,7 @@
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://i.dummyjson.com/data/products/78/thumbnail.jpg",
-      "images": [
-        "https://i.dummyjson.com/data/products/78/thumbnail.jpg"
-      ]
+      "images": ["https://i.dummyjson.com/data/products/78/thumbnail.jpg"]
     },
     {
       "id": 79,
@@ -1476,9 +1500,7 @@
       "brand": "Fashion Jewellery",
       "category": "womens-jewellery",
       "thumbnail": "https://i.dummyjson.com/data/products/79/thumbnail.jpg",
-      "images": [
-        "https://i.dummyjson.com/data/products/79/1.jpg"
-      ]
+      "images": ["https://i.dummyjson.com/data/products/79/1.jpg"]
     },
     {
       "id": 80,
@@ -2392,72 +2414,5 @@
       "id": 7
     }
   ],
-  "orders": [
-    {
-      "items": [
-        {
-          "product": {
-            "id": 2,
-            "title": "iPhone X",
-            "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-            "price": 899,
-            "discountPercentage": 17.94,
-            "rating": 4.44,
-            "stock": 34,
-            "brand": "Apple",
-            "category": "smartphones",
-            "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
-            "images": [
-              "https://i.dummyjson.com/data/products/2/1.jpg",
-              "https://i.dummyjson.com/data/products/2/2.jpg",
-              "https://i.dummyjson.com/data/products/2/3.jpg",
-              "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
-            ]
-          },
-          "quantity": 1,
-          "user": 1,
-          "id": 8
-        }
-      ],
-      "totalAmount": 899,
-      "totalItems": 1,
-      "user": {
-        "email": "test@gmail.com",
-        "password": "Test@123",
-        "addresses": [
-          {
-            "fullName": "Nikita",
-            "email": "nik@gmail.com",
-            "phone": "456789123",
-            "street": "25 Main Street",
-            "city": "warsaw",
-            "region": "mazowieskie",
-            "postalCode": "25689"
-          },
-          {
-            "fullName": "misha",
-            "email": "maya@gmail.com",
-            "phone": "44549898897",
-            "street": "25 Jakarta Street",
-            "city": "warsaw",
-            "region": "mazowieskie",
-            "postalCode": "52451"
-          }
-        ],
-        "id": 1
-      },
-      "selectedAddress": {
-        "fullName": "misha",
-        "email": "maya@gmail.com",
-        "phone": "44549898897",
-        "street": "25 Jakarta Street",
-        "city": "warsaw",
-        "region": "mazowieskie",
-        "postalCode": "52451"
-      },
-      "selectPaymentMethod": "cash",
-      "status": "pending",
-      "id": 1
-    }
-  ]
+  "orders": []
 }

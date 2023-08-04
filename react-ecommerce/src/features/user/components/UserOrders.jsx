@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoggedInUser } from "../../auth/authSlice";
-import { fetchAllOrdersByUserIdAsync, selectUserOrders } from "../userSlice";
+import {
+  fetchAllOrdersByUserIdAsync,
+  selectUserInfo,
+  selectUserOrders,
+} from "../userSlice";
 
 export default function UserOrders() {
-  const user = useSelector(selectLoggedInUser);
+  const user = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
 
   const dispatch = useDispatch();
@@ -90,17 +93,18 @@ export default function UserOrders() {
                       <p className="text-sm font-semibold leading-6 text-gray-900">
                         {order.selectedAddress.fullName}
                       </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {order.selectedAddress.street}
+                      <p className="text-sm   leading-6 text-gray-900">
+                        {order.selectedAddress.email}
                       </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {order.selectedAddress.postalCode}
+                      <p className="text-sm leading-6 text-gray-900">
+                        {order.selectedAddress.phone}
                       </p>
                     </div>
                   </div>
                   <div className="hidden sm:flex sm:flex-col sm:items-end">
-                    <p className="text-sm leading-6 text-gray-900">
-                      Phone: {order.selectedAddress.phone}
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {order.selectedAddress.street},{" "}
+                      {order.selectedAddress.postalCode}
                     </p>
                     <p className="text-sm leading-6 text-gray-500">
                       {order.selectedAddress.city}

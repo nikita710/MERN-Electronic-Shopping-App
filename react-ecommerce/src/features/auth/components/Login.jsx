@@ -40,6 +40,7 @@ const Login = () => {
                   email: data.email,
                   password: data.password,
                   addresses: [],
+                  role: "",
                 })
               );
               console.log(data);
@@ -86,12 +87,12 @@ const Login = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a
-                    href=".#"
+                  <Link
+                    to={"/forgot-password"}
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-2">

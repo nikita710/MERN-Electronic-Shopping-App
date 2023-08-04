@@ -14,8 +14,17 @@ import { fetchItemsByUserIdAsync } from "./features/cart/CartSlice";
 import PageNotfound from "./pages/404Page";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserOrdersPage from "./pages/UserOrdersPage";
+import UserProfilePage from "./pages/UserProfilePage";
+import { fetchLoggedInUserAsync } from "./features/user/userSlice";
+import Logout from "./features/auth/components/Logout";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import AdminProtected from "./features/auth/components/AdminProtected";
+import AdminHomePage from "./pages/AdminHomePage";
+import AdminProductDetailPage from "./pages/AdminProductDetailPage";
 
 const router = createBrowserRouter([
+  { path: "/login", element: <LoginPage></LoginPage> },
+  { path: "/signup", element: <SignupPage></SignupPage> },
   {
     path: "/",
     element: (
@@ -24,8 +33,22 @@ const router = createBrowserRouter([
       </Protected>
     ),
   },
-  { path: "/login", element: <LoginPage></LoginPage> },
-  { path: "/signup", element: <SignupPage></SignupPage> },
+  {
+    path: "/admin",
+    element: (
+      <AdminProtected>
+        <AdminHomePage></AdminHomePage>
+      </AdminProtected>
+    ),
+  },
+  {
+    path: "/admin/product-detail/:id",
+    element: (
+      <AdminProtected>
+        <AdminProductDetailPage></AdminProductDetailPage>
+      </AdminProtected>
+    ),
+  },
   {
     path: "/cart",
     element: (
@@ -59,12 +82,33 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/user",
+    element: (
+      <Protected>
+        <UserProfilePage></UserProfilePage>
+      </Protected>
+    ),
+  },
+  {
     path: "/user-orders",
     element: (
       <Protected>
         <UserOrdersPage></UserOrdersPage>
       </Protected>
     ),
+  },
+  {
+    path: "/logout",
+    element: (
+      <Protected>
+        <Logout></Logout>
+      </Protected>
+    ),
+  },
+
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage></ForgotPasswordPage>,
   },
   { path: "*", element: <PageNotfound></PageNotfound> },
 ]);
@@ -76,6 +120,7 @@ function App() {
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
+      dispatch(fetchLoggedInUserAsync(user.id));
     }
   }, [dispatch, user]);
 

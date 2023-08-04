@@ -3,9 +3,13 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductByIdAsync, selectProductById } from "../productSlice";
+
 import { addToCartAsync } from "../../cart/CartSlice";
 import { selectLoggedInUser } from "../../auth/authSlice";
+import {
+  fetchProductByIdAsync,
+  selectProductById,
+} from "../../product/productSlice";
 
 const highlights = [
   "Hand cut and sewn locally",
@@ -37,7 +41,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ProductDetail() {
+export default function AdminProductDetail() {
   const product = useSelector(selectProductById);
   const user = useSelector(selectLoggedInUser);
 
