@@ -5,6 +5,7 @@ import {
   selectUserInfo,
   selectUserOrders,
 } from "../userSlice";
+import { discountedPrice } from "../../../app/constants";
 
 export default function UserOrders() {
   const user = useSelector(selectUserInfo);
@@ -47,7 +48,7 @@ export default function UserOrders() {
                               <a href=".#">{item.product.title}</a>
                             </h3>
                             <p className="ml-4">
-                              ${item.product.price * item.quantity}
+                              ${discountedPrice(item.product) * item.quantity}
                             </p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">

@@ -13,6 +13,7 @@ import {
   selectCurrentOrder,
 } from "../features/order/orderSlice";
 import { selectUserInfo } from "../features/user/userSlice";
+import { discountedPrice } from "../app/constants";
 
 function CheckoutPage() {
   const items = useSelector(selectItems);
@@ -31,7 +32,7 @@ function CheckoutPage() {
   } = useForm();
 
   const totalAmount = items.reduce(
-    (amount, item) => amount + item.product.price * item.quantity,
+    (amount, item) => amount + discountedPrice(item.product) * item.quantity,
     0
   );
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
@@ -398,7 +399,7 @@ function CheckoutPage() {
                                 <a href=".#">{item.product.title}</a>
                               </h3>
                               <p className="ml-4">
-                                ${item.product.price * item.quantity}
+                                ${discountedPrice(item.product) * item.quantity}
                               </p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">

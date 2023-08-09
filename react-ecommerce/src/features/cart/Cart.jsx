@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { deleteCartAsync, selectItems, updateCartAsync } from "./CartSlice";
+import { discountedPrice } from "../../app/constants";
 
 const Cart = () => {
   const items = useSelector(selectItems);
@@ -9,7 +10,7 @@ const Cart = () => {
 
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
   const totalAmount = items.reduce(
-    (amount, item) => item.product.price * item.quantity + amount,
+    (amount, item) => discountedPrice(item.product) * item.quantity + amount,
     0
   );
 
@@ -49,7 +50,7 @@ const Cart = () => {
                             <a href=".#">{item.product.title}</a>
                           </h3>
                           <p className="ml-4">
-                            ${item.product.price * item.quantity}
+                            ${discountedPrice(item.product) * item.quantity}
                           </p>
                         </div>
                         <p className="mt-1 text-sm text-gray-500">

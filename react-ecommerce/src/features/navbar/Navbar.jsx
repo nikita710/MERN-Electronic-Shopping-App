@@ -17,6 +17,7 @@ const user = {
 const navigation = [
   { name: "Home", link: "/", current: true, user: true },
   { name: "Admin", link: "/admin", current: false, admin: true },
+  { name: "Orders", link: "/admin/admin-orders", current: false, admin: true },
   { name: "Projects", link: "/", current: false, user: true },
   { name: "Calendar", link: "/", current: false, user: true },
   { name: "Login", link: "/login", current: false, user: true, admin: true },
@@ -48,7 +49,7 @@ export default function Navbar({ children }) {
                       <Link to="/">
                         <img
                           className="h-8 w-8"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                          src="/logo.png"
                           alt="Your Company"
                         />
                       </Link>

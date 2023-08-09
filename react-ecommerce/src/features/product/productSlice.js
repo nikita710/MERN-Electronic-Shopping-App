@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  createProduct,
   fetchAllProducts,
   fetchBrands,
   fetchCategories,
   fetchProductById,
   fetchProductsByFilters,
+  updateProduct,
 } from "./productApi";
 
 // Initialize the state
@@ -16,6 +18,24 @@ const initialState = {
   totalItems: 0,
   singleProduct: null,
 };
+
+//Create product
+export const createProductAsync = createAsyncThunk(
+  "product/create-product",
+  async (product) => {
+    const response = await createProduct(product);
+    return response.data;
+  }
+);
+
+// Edit product
+export const updateProductAsync = createAsyncThunk(
+  "product/update-product",
+  async (product) => {
+    const response = await updateProduct(product);
+    return response.data;
+  }
+);
 
 // Fetch All Products AsyncThunk
 export const fetchAllProductsAsync = createAsyncThunk(
@@ -91,7 +111,7 @@ export const productSlice = createSlice({
         state.categories = action.payload;
       })
       .addCase(fetchBrandsAsync.pending, (state) => {
-        state.status = "pending";
+        state.status = "loading";
       })
       .addCase(fetchBrandsAsync.fulfilled, (state, action) => {
         state.status = "idle";
@@ -103,6 +123,24 @@ export const productSlice = createSlice({
       .addCase(fetchProductByIdAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.singleProduct = action.payload;
+      })
+      .addCase(createProductAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createProductAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.products.push(action.payload);
+      })
+      .addCase(updateProductAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateProductAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        console.log("payload", action.payload);
+        const index = state.products.findIndex(
+          (product) => product.id === action.payload.id
+        );
+        state.products[index] = action.payload;
       });
   },
 });
@@ -112,5 +150,6 @@ export const selectTotalItems = (state) => state.product.totalItems;
 export const selectCategories = (state) => state.product.categories;
 export const selectBrands = (state) => state.product.brands;
 export const selectProductById = (state) => state.product.singleProduct;
+export const selectProductsStatus = (state) => state.product.status;
 
 export default productSlice.reducer;

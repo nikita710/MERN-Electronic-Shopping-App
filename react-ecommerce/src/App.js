@@ -21,6 +21,15 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import AdminProtected from "./features/auth/components/AdminProtected";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminProductDetailPage from "./pages/AdminProductDetailPage";
+import AddProductFormPage from "./pages/AddProductFormPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
+import { Provider, positions } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+
+const options = {
+  timeout: 5000,
+  position: positions.TOP_CENTER,
+};
 
 const router = createBrowserRouter([
   { path: "/login", element: <LoginPage></LoginPage> },
@@ -46,6 +55,30 @@ const router = createBrowserRouter([
     element: (
       <AdminProtected>
         <AdminProductDetailPage></AdminProductDetailPage>
+      </AdminProtected>
+    ),
+  },
+  {
+    path: "/admin/add-product",
+    element: (
+      <AdminProtected>
+        <AddProductFormPage></AddProductFormPage>
+      </AdminProtected>
+    ),
+  },
+  {
+    path: "/admin/edit-product/:id",
+    element: (
+      <AdminProtected>
+        <AddProductFormPage></AddProductFormPage>
+      </AdminProtected>
+    ),
+  },
+  {
+    path: "/admin/admin-orders",
+    element: (
+      <AdminProtected>
+        <AdminOrdersPage></AdminOrdersPage>
       </AdminProtected>
     ),
   },
@@ -126,7 +159,9 @@ function App() {
 
   return (
     <div className="App">
-      <RouterProvider router={router}></RouterProvider>
+      <Provider template={AlertTemplate} {...options}>
+        <RouterProvider router={router}></RouterProvider>
+      </Provider>
     </div>
   );
 }

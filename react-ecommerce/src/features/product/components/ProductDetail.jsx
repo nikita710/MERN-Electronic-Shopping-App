@@ -4,8 +4,10 @@ import { RadioGroup } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductByIdAsync, selectProductById } from "../productSlice";
-import { addToCartAsync } from "../../cart/CartSlice";
+import { addToCartAsync, selectItems } from "../../cart/CartSlice";
 import { selectLoggedInUser } from "../../auth/authSlice";
+import { discountedPrice } from "../../../app/constants";
+import { useAlert } from "react-alert";
 
 const highlights = [
   "Hand cut and sewn locally",
@@ -39,17 +41,26 @@ function classNames(...classes) {
 
 export default function ProductDetail() {
   const product = useSelector(selectProductById);
+  const cartItems = useSelector(selectItems);
   const user = useSelector(selectLoggedInUser);
 
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const dispatch = useDispatch();
+  const alert = useAlert();
 
   const params = useParams();
 
   const handleCart = (e) => {
     e.preventDefault();
-    dispatch(addToCartAsync({ product, quantity: 1, user: user.id }));
+    const itemIndex = cartItems.findIndex(
+      (item) => item.product.id === product.id
+    );
+    if (itemIndex < 0) {
+      dispatch(addToCartAsync({ product, quantity: 1, user: user.id }));
+    } else {
+      alert.show("Product already in cart");
+    }
   };
 
   useEffect(() => {
@@ -142,7 +153,8 @@ export default function ProductDetail() {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">
-                {product.price}
+                ${discountedPrice(product)}{" "}
+                <span className="line-through text-xl ">${product.price}</span>
               </p>
 
               {/* Reviews */}
