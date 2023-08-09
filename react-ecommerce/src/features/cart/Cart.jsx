@@ -1,10 +1,13 @@
-import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { deleteCartAsync, selectItems, updateCartAsync } from "./CartSlice";
 import { discountedPrice } from "../../app/constants";
+import Modal from "../shared/Modal";
+import { useState } from "react";
 
 const Cart = () => {
+  const [openModal, setOpenModal] = useState(null);
+
   const items = useSelector(selectItems);
   const dispatch = useDispatch();
 
@@ -25,6 +28,7 @@ const Cart = () => {
   return (
     <>
       {!items.length && <Navigate to={"/"} replace={true}></Navigate>}
+
       <div>
         <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
@@ -80,9 +84,20 @@ const Cart = () => {
                         </div>
 
                         <div className="flex">
+                          <Modal
+                            title={`Delete ${item.product.title} `}
+                            message={`Are you sure you want to delete  ${item.product.title}`}
+                            dangerOption={"Delete"}
+                            cancelOption={"Cancel"}
+                            dangerAction={(e) => {
+                              handleDelete(e, item.id);
+                            }}
+                            cancelAction={() => setOpenModal(null)}
+                            showModal={openModal === item.id}
+                          ></Modal>
                           <button
                             onClick={(e) => {
-                              handleDelete(e, item.id);
+                              setOpenModal(item.id);
                             }}
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -120,7 +135,7 @@ const Cart = () => {
             </div>
             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
               <p>
-                or
+                or{" "}
                 <Link to="/">
                   <button
                     type="button"

@@ -118,7 +118,7 @@ export const productSlice = createSlice({
         state.brands = action.payload;
       })
       .addCase(fetchProductByIdAsync.pending, (state) => {
-        state.status = "pending";
+        state.status = "loading";
       })
       .addCase(fetchProductByIdAsync.fulfilled, (state, action) => {
         state.status = "idle";
@@ -141,6 +141,7 @@ export const productSlice = createSlice({
           (product) => product.id === action.payload.id
         );
         state.products[index] = action.payload;
+        state.singleProduct = action.payload;
       });
   },
 });

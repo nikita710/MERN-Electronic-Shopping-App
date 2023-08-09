@@ -48,8 +48,8 @@ export default function Navbar({ children }) {
                     <div className="flex-shrink-0">
                       <Link to="/">
                         <img
-                          className="h-8 w-8"
-                          src="/logo.png"
+                          className="h-14"
+                          src="../../logo-2.png"
                           alt="Your Company"
                         />
                       </Link>

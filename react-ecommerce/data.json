@@ -120,7 +120,10 @@
       "category": "smartphones",
       "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
       "images": [
-        "https://i.dummyjson.com/data/products/3/1.jpg"
+        "https://i.dummyjson.com/data/products/3/1.jpg",
+        "https://i.dummyjson.com/data/products/3/1.jpg",
+        "https://i.dummyjson.com/data/products/3/1.jpg",
+        "https://i.dummyjson.com/data/products/3/thumbnail.jpg"
       ]
     },
     {
@@ -229,9 +232,9 @@
         "https://i.dummyjson.com/data/products/9/1.jpg",
         "https://i.dummyjson.com/data/products/9/2.png",
         "https://i.dummyjson.com/data/products/9/3.png",
-        "https://i.dummyjson.com/data/products/9/4.jpg",
         "https://i.dummyjson.com/data/products/9/thumbnail.jpg"
-      ]
+      ],
+      "deleted": true
     },
     {
       "id": 10,
@@ -2443,6 +2446,30 @@
   "cart": [
     {
       "product": {
+        "id": 20,
+        "title": "Freckle Treatment Cream- 15gm",
+        "description": "Fair & Clear is Pakistan's only pure Freckle cream which helpsfade Freckles, Darkspots and pigments. Mercury level is 0%, so there are no side effects.",
+        "price": 70,
+        "discountPercentage": 16.99,
+        "rating": 4.06,
+        "stock": 140,
+        "brand": "Fair & Clear",
+        "category": "skincare",
+        "thumbnail": "https://i.dummyjson.com/data/products/20/thumbnail.jpg",
+        "images": [
+          "https://i.dummyjson.com/data/products/20/1.jpg",
+          "https://i.dummyjson.com/data/products/20/2.jpg",
+          "https://i.dummyjson.com/data/products/20/3.jpg",
+          "https://i.dummyjson.com/data/products/20/4.jpg",
+          "https://i.dummyjson.com/data/products/20/thumbnail.jpg"
+        ]
+      },
+      "quantity": 1,
+      "user": 1,
+      "id": 1
+    },
+    {
+      "product": {
         "id": 2,
         "title": "iPhone 9",
         "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
@@ -2458,30 +2485,6 @@
           "https://i.dummyjson.com/data/products/2/2.jpg",
           "https://i.dummyjson.com/data/products/2/3.jpg",
           "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
-        ]
-      },
-      "quantity": 1,
-      "user": 1,
-      "id": 1
-    },
-    {
-      "product": {
-        "id": 9,
-        "title": "Infinix INBOOK",
-        "description": "Infinix Inbook X1 Ci3 10th 8GB 256GB 14 Win10 Grey – 1 Year Warranty",
-        "price": 1099,
-        "discountPercentage": 11.83,
-        "rating": 4.54,
-        "stock": 96,
-        "brand": "Infinix",
-        "category": "laptops",
-        "thumbnail": "https://i.dummyjson.com/data/products/9/thumbnail.jpg",
-        "images": [
-          "https://i.dummyjson.com/data/products/9/1.jpg",
-          "https://i.dummyjson.com/data/products/9/2.png",
-          "https://i.dummyjson.com/data/products/9/3.png",
-          "https://i.dummyjson.com/data/products/9/4.jpg",
-          "https://i.dummyjson.com/data/products/9/thumbnail.jpg"
         ]
       },
       "quantity": 1,
