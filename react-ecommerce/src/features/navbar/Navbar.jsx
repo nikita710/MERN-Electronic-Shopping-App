@@ -20,7 +20,7 @@ const navigation = [
   { name: "Orders", link: "/admin/admin-orders", current: false, admin: true },
   { name: "Projects", link: "/", current: false, user: true },
   { name: "Calendar", link: "/", current: false, user: true },
-  { name: "Login", link: "/login", current: false, user: true, admin: true },
+  // { name: "Login", link: "/login", current: false, user: true, admin: true },
 ];
 const userNavigation = [
   { name: "My Profile", link: "/user" },
