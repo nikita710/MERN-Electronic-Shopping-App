@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { checkUser, createUser, logoutUser } from "./authApi";
-import { updateUser } from "../user/userApi";
 
 const initialState = {
   registeredUser: null,
@@ -20,20 +19,16 @@ export const createUserAsync = createAsyncThunk(
 // Login user
 export const checkUserAsync = createAsyncThunk(
   "auth/checkUser",
-  async (loginInfo) => {
-    const response = await checkUser(loginInfo);
-    return response.data;
+  async (loginInfo, { rejectWithValue }) => {
+    try {
+      const response = await checkUser(loginInfo);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
 
-//Update user
-export const updateUserAsync = createAsyncThunk(
-  "auth/updateUser",
-  async (user) => {
-    const response = await updateUser(user);
-    return response.data;
-  }
-);
 // Logout user
 export const logoutUserAsync = createAsyncThunk(
   "user/logout",
@@ -63,16 +58,10 @@ export const authSlice = createSlice({
         state.registeredUser = acton.payload;
       })
       .addCase(checkUserAsync.rejected, (state, acton) => {
-        state.status = "error";
-        state.error = acton.error;
-      })
-      .addCase(updateUserAsync.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(updateUserAsync.fulfilled, (state, acton) => {
         state.status = "idle";
-        state.registeredUser = acton.payload;
+        state.error = acton.payload;
       })
+
       .addCase(logoutUserAsync.pending, (state) => {
         state.status = "loading";
       })

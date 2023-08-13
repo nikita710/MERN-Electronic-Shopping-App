@@ -6,13 +6,12 @@ import {
   updateCartAsync,
 } from "../features/cart/CartSlice";
 import { useForm } from "react-hook-form";
-import { updateUserAsync } from "../features/auth/authSlice";
 import { useState } from "react";
 import {
   createOrderAsync,
   selectCurrentOrder,
 } from "../features/order/orderSlice";
-import { selectUserInfo } from "../features/user/userSlice";
+import { selectUserInfo, updateUserAsync } from "../features/user/userSlice";
 import { discountedPrice } from "../app/constants";
 
 function CheckoutPage() {
@@ -38,7 +37,7 @@ function CheckoutPage() {
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
 
   const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ ...item, quantity: +e.target.value }));
+    dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
   };
 
   const handleDelete = (e, itemId) => {
@@ -59,7 +58,7 @@ function CheckoutPage() {
         items,
         totalAmount,
         totalItems,
-        user,
+        user: user.id,
         selectedAddress,
         selectPaymentMethod,
         status: "pending",
@@ -395,9 +394,7 @@ function CheckoutPage() {
                         <div className="ml-4 flex flex-1 flex-col">
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
-                              <h3>
-                                <a href=".#">{item.product.title}</a>
-                              </h3>
+                              <h3>{item.product.title}</h3>
                               <p className="ml-4">
                                 ${discountedPrice(item.product) * item.quantity}
                               </p>

@@ -20,7 +20,7 @@ export function fetchAllOrder(sort, pagination) {
   }
 
   for (const key in pagination) {
-    queryString += `${key}=${pagination[key]}`;
+    queryString += `${key}=${pagination[key]}&`;
   }
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/orders?" + queryString);
@@ -34,7 +34,7 @@ export function fetchAllOrder(sort, pagination) {
 export function updateOrder(order) {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/orders/" + order.id, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(order),
       headers: { "Content-Type": "application/json" },
     });

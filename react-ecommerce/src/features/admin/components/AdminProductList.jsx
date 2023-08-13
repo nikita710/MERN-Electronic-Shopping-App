@@ -89,9 +89,10 @@ export default function AdminProductList() {
   };
 
   useEffect(() => {
-    // dispatch(fetchAllProductsAsync());
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
+    dispatch(
+      fetchProductsByFiltersAsync({ filter, sort, pagination, admin: true })
+    );
 
     // console.log({ pagination });
   }, [dispatch, filter, sort, page]);

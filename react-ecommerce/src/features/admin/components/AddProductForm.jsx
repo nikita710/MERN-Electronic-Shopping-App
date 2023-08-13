@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../shared/Modal";
 import { useState } from "react";
+import { useAlert } from "react-alert";
 
 export default function AddProductForm() {
   const {
@@ -29,6 +30,7 @@ export default function AddProductForm() {
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const alert = useAlert();
 
   useEffect(() => {
     if (params.id) {
@@ -83,17 +85,19 @@ export default function AddProductForm() {
           if (params.id) {
             product.id = params.id;
             dispatch(updateProductAsync(product));
+            alert.success("Product updated successfully");
             reset();
             navigate("/admin");
           } else {
             dispatch(createProductAsync(product));
+            alert.success("Product created successfully");
             reset();
           }
         })}
       >
         <div className="space-y-12 bg-white p-12">
           <div className="border-b border-gray-900/10 pb-12">
-            {selectedProduct.deleted && (
+            {selectedProduct && selectedProduct.deleted && (
               <h1 className="text-red-500 text-xl mb-5">
                 This Product Is Deleted
               </h1>
@@ -387,7 +391,7 @@ export default function AddProductForm() {
                 Cancel
               </Link>
 
-              {!selectedProduct.deleted && (
+              {selectedProduct && !selectedProduct.deleted && (
                 <button
                   onClick={(e) => {
                     e.preventDefault();
@@ -494,15 +498,17 @@ export default function AddProductForm() {
         </div>
       </form>
 
-      <Modal
-        title={`Delete ${selectedProduct.title}`}
-        message={`Are you sure you want to delete ${selectedProduct.title}`}
-        dangerOption="Delete"
-        cancelOption="Cancel"
-        dangerAction={handleDeleteProduct}
-        cancelAction={() => setOpenModal(false)}
-        showModal={openModal}
-      ></Modal>
+      {selectedProduct && (
+        <Modal
+          title={`Delete ${selectedProduct.title}`}
+          message={`Are you sure you want to delete ${selectedProduct.title}`}
+          dangerOption="Delete"
+          cancelOption="Cancel"
+          dangerAction={handleDeleteProduct}
+          cancelAction={() => setOpenModal(false)}
+          showModal={openModal}
+        ></Modal>
+      )}
     </>
   );
 }

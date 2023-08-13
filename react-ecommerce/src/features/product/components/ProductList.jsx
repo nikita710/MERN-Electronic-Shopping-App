@@ -13,11 +13,7 @@ import {
 
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  StarIcon,
-} from "@heroicons/react/20/solid";
+import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { ITEMS_PER_PAGE, discountedPrice } from "./../../../app/constants";
 import {
@@ -28,6 +24,7 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { RotatingTriangles } from "react-loader-spinner";
+import { Pagination } from "../../shared/Pagination";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -83,9 +80,8 @@ export default function ProductList() {
   };
 
   const handleSort = (e, option) => {
-    let newSort = { _sort: option.sort, _order: option.order };
+    const newSort = { _sort: option.sort, _order: option.order };
     setSort(newSort);
-    console.log(newSort);
   };
 
   const handlePage = (page) => {
@@ -94,7 +90,6 @@ export default function ProductList() {
   };
 
   useEffect(() => {
-    // dispatch(fetchAllProductsAsync());
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
     dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
 
@@ -410,7 +405,7 @@ function ProductGrid({ products }) {
   const status = useSelector(selectProductsStatus);
   return (
     <div className="bg-white">
-      {status === "loading" ? (
+      {status === "loading" && (
         <RotatingTriangles
           visible={true}
           margin="auto"
@@ -420,129 +415,46 @@ function ProductGrid({ products }) {
           wrapperStyle={{}}
           wrapperClass="rotating-triangels-wrapper"
         />
-      ) : (
-        <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-            {products.map((product) => (
-              <Link to={`/product-detail/${product.id}`} key={product.id}>
-                <div className="group relative border-solid border-2 p-2 border-gray-200">
-                  <div className="min-h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
-                    <img
-                      src={product.thumbnail}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                    />
+      )}
+      <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+          {products.map((product) => (
+            <Link to={`/product-detail/${product.id}`} key={product.id}>
+              <div className="group relative border-solid border-2 p-2 border-gray-200">
+                <div className="min-h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                  />
+                </div>
+                <div className="mt-4 flex justify-between">
+                  <div>
+                    <h3 className="text-sm text-gray-700">
+                      <div href={product.thumbnail}>
+                        <span aria-hidden="true" className="absolute inset-0" />
+                        {product.title}
+                      </div>
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500">
+                      <StarIcon className="w-6 h-6 inline"></StarIcon>
+                      <span className=" align-bottom">{product.rating}</span>
+                    </p>
                   </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-sm text-gray-700">
-                        <div href={product.thumbnail}>
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          {product.title}
-                        </div>
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        <StarIcon className="w-6 h-6 inline"></StarIcon>
-                        <span className=" align-bottom">{product.rating}</span>
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm block font-medium text-gray-900">
-                        ${discountedPrice(product)}
-                      </p>
-                      <p className="text-sm block line-through font-medium text-gray-400">
-                        ${product.price}
-                      </p>
-                    </div>
+                  <div>
+                    <p className="text-sm block font-medium text-gray-900">
+                      ${discountedPrice(product)}
+                    </p>
+                    <p className="text-sm block line-through font-medium text-gray-400">
+                      ${product.price}
+                    </p>
                   </div>
                 </div>
-                {product.deleted && (
-                  <p className="text-red-400">Deleted Item</p>
-                )}
-                {product.stock <= 0 && <p className="text-red-400">No Stock</p>}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function Pagination({ page, setPage, handlePage, totalItems }) {
-  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-  return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
-        <div
-          onClick={(e) => handlePage(page > 1 ? page - 1 : page)}
-          className="cursor-pointer relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Previous
-        </div>
-        <div
-          onClick={(e) => handlePage(page < totalPages ? page + 1 : page)}
-          className="cursor-pointer relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Next
-        </div>
-      </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-700">
-            Showing{" "}
-            <span className="font-medium">
-              {(page - 1) * ITEMS_PER_PAGE + 1}
-            </span>{" "}
-            to{" "}
-            <span className="font-medium">
-              {page * ITEMS_PER_PAGE > totalItems
-                ? totalItems
-                : page * ITEMS_PER_PAGE}
-            </span>{" "}
-            of <span className="font-medium">{totalItems}</span> results
-          </p>
-        </div>
-        <div>
-          <nav
-            className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-            aria-label="Pagination"
-          >
-            <div
-              onClick={(e) => handlePage(page > 1 ? page - 1 : page)}
-              className="cursor-pointer relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              <span className="sr-only">Previous</span>
-              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
-
-            {Array.from({ length: totalPages }).map((element, index) => (
-              <div
-                key={index}
-                onClick={(e) => handlePage(index + 1)}
-                aria-current="page"
-                className={`relative z-10 inline-flex cursor-pointer items-center ${
-                  index + 1 === page
-                    ? "bg-indigo-600 text-white "
-                    : "text-gray-400"
-                } px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
-              >
-                {index + 1}
               </div>
-            ))}
-
-            <div
-              onClick={(e) => handlePage(page < totalPages ? page + 1 : page)}
-              className="cursor-pointer relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              <span className="sr-only">Next</span>
-              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
-          </nav>
+              {product.deleted && <p className="text-red-400">Deleted Item</p>}
+              {product.stock <= 0 && <p className="text-red-400">No Stock</p>}
+            </Link>
+          ))}
         </div>
       </div>
     </div>

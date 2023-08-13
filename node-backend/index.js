@@ -4,6 +4,10 @@ import productRoutes from "./routes/productRoutes.js";
 import categoriesRoutes from "./routes/categoriesRouter.js";
 import brandRoutes from "./routes/brandsRoutes.js";
 import cors from "cors";
+import authRouts from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 // server object
 const server = express();
@@ -12,7 +16,7 @@ const server = express();
 server.use(express.json()); // parse json request body
 server.use(
   cors({
-    exposeHeaders: ["X-Total-Count"],
+    exposedHeaders: ["X-Total-Count"],
   })
 );
 
@@ -20,6 +24,10 @@ server.use(
 server.use("/products", productRoutes);
 server.use("/categories", categoriesRoutes);
 server.use("/brands", brandRoutes);
+server.use("/auth", authRouts);
+server.use("/users", userRoutes);
+server.use("/cart", cartRoutes);
+server.use("/orders", orderRoutes);
 
 // Server initialization
 server.get("/", (req, res) => {
@@ -46,3 +54,10 @@ connectDB();
 server.listen(8080, () => {
   console.log("server listening on port 9595...");
 });
+
+/*
+server.listen(8080, () => {
+  console.log("server listening on port 9595...");
+});
+
+*/

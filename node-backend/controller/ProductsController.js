@@ -15,8 +15,13 @@ export async function createProduct(req, res) {
 
 // Fetch all products with filtration
 export async function fetchAllProducts(req, res) {
-  let query = Products.find({});
-  let countProducts = Products.find({});
+  let condition = {};
+  if (!req.query.admin) {
+    condition.deleted = { $ne: true };
+  }
+
+  let query = Products.find(condition);
+  let countProducts = Products.find(condition);
 
   if (req.query.category) {
     query = query.find({ category: req.query.category });
@@ -24,11 +29,15 @@ export async function fetchAllProducts(req, res) {
   }
   if (req.query.brand) {
     query = query.find({ brand: req.query.brand });
-    countProducts = countProducts.find({ brand: req.countProducts.brand });
+    countProducts = countProducts.find({ brand: req.query.brand });
   }
   if (req.query._sort && req.query._order) {
     query = query.sort({ [req.query._sort]: req.query._order });
   }
+
+  const totalProducts = await countProducts.count().exec();
+  // console.log({ totalProducts });
+
   if (req.query._page && req.query._limit) {
     const pageSize = req.query._limit;
     const page = req.query._page;
@@ -37,8 +46,6 @@ export async function fetchAllProducts(req, res) {
 
   try {
     const products = await query.exec();
-    const totalProducts = await countProducts.count().exec();
-
     res.set("X-Total-Count", totalProducts);
     res.status(200).json(products);
   } catch (error) {
@@ -58,10 +65,13 @@ export async function fetchProductById(req, res) {
   }
 }
 
+// Update Product
 export async function updateProduct(req, res) {
   const { id } = req.params;
   try {
-    const result = await Products.findByIdAndUpdate(id, req.body);
+    const result = await Products.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     res.status(200).json(result);
   } catch (error) {
     res.status(404).json(error);

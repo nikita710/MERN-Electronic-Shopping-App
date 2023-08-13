@@ -29,14 +29,6 @@ export function updateProduct(product) {
   });
 }
 
-// Fetch Products
-export function fetchAllProducts() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products");
-    const data = await response.json();
-    resolve({ data });
-  });
-}
 // Fetch Products By Id
 export function fetchProductById(id) {
   return new Promise(async (resolve) => {
@@ -47,7 +39,7 @@ export function fetchProductById(id) {
 }
 
 // Fetch Products by filtering
-export function fetchProductsByFilters(filter, sort, pagination) {
+export function fetchProductsByFilters(filter, sort, pagination, admin) {
   //filter = {"category":["smartphone","laptop"]}
   //sort = {_sot:"price",_order:"desc"}
   //pagination = {_page:1,_limit:10} //_page=1&_limit=10
@@ -69,7 +61,11 @@ export function fetchProductsByFilters(filter, sort, pagination) {
   }
 
   for (const key in pagination) {
-    queryString += `${key}=${pagination[key]}`;
+    queryString += `${key}=${pagination[key]}&`;
+  }
+
+  if (admin) {
+    queryString += `admin=true`;
   }
 
   return new Promise(async (resolve) => {
@@ -99,3 +95,12 @@ export function fetchBrands() {
     resolve({ data });
   });
 }
+
+// Fetch Products
+// export function fetchAllProducts() {
+//   return new Promise(async (resolve) => {
+//     const response = await fetch("http://localhost:8080/products");
+//     const data = await response.json();
+//     resolve({ data });
+//   });
+// }
